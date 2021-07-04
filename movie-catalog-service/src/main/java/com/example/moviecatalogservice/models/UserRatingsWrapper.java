@@ -3,13 +3,16 @@ package com.example.moviecatalogservice.models;
 import java.util.List;
 
 public class UserRatingsWrapper {
-    List<Rating> ratings;
+    List<RatingImpl> ratings;
 
-    public UserRatingsWrapper(List<Rating> ratings) {
+    public UserRatingsWrapper() {
+    }
+
+    public UserRatingsWrapper(List<RatingImpl> ratings) {
         this.ratings = ratings;
     }
 
-    public List<Rating> getRatings() {
+    public List<RatingImpl> getRatings() {
         return ratings;
     }
 }
