@@ -2,6 +2,8 @@ package com.example.moviecatalogservice.resource;
 
 import com.example.moviecatalogservice.models.*;
 
+import com.example.moviecatalogservice.service.MovieInfoService;
+import com.example.moviecatalogservice.service.MovieRatingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
@@ -19,39 +21,31 @@ import java.util.stream.Collectors;
 @ComponentScan
 public class MovieCatalogResource {
 
-    @Autowired
-    private RestTemplate restTemplate;
+
     @Autowired
     private WebClient.Builder builder;
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final String MOVIE_INFO_SERVICE = "movie-info-service";
-    private static final String MOVIE_RATING_SERVICE = "movie-rating-service";
+    @Autowired
+    private MovieInfoService movieInfoService;
+
+    @Autowired
+    private MovieRatingService movieRatingService;
 
     //this can be made async , reactive java
     @RequestMapping("/{userId}")
     public List<ICatalogItem> getCatalog(@PathVariable("userId") String userId) {
         //get all rated movies Ids
-        UserRatingsWrapper userRatingsWrapper =
-                restTemplate.getForObject("http://" + MOVIE_RATING_SERVICE + "/ratingdata/users/" + userId,
-                UserRatingsWrapper.class);
-        assert userRatingsWrapper != null;
-        List<Rating> ratings = userRatingsWrapper.getRatings();
+        List<RatingImpl> ratings = movieRatingService.getUserRatings(userId);
 
         //For each movie Ids call info service and get details
         assert ratings != null;
         return ratings.stream()
-                      .map(rating -> {
-                   MovieImpl movie =
-                           restTemplate.getForObject("http://" + MOVIE_INFO_SERVICE + "/movies/" + rating.getMovieId(),
-                           MovieImpl.class);
-
-                  assert movie != null;
-                   return new CatalogItem(movie.getMovieName(), "Desc", rating.getMovieRating());
-                })
+                      .map(rating->movieInfoService.getCatalogItem(rating))
                       .collect(Collectors.toList());
     }
+
 }
 
 /*

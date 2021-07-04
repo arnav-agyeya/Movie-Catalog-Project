@@ -9,4 +9,8 @@ public interface Movie {
     String getMovieId();
 
     void setMovieId(String movieId);
+
+    String getMovieOverView();
+
+    void setMovieOverView(String movieOverView);
 }

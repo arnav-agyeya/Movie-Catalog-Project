@@ -25,8 +25,8 @@ public class RatingService {
     @RequestMapping("users/{userId}")
     public UserRatingsWrapper getMoviesWatchedByUser(@PathVariable("userId") String userId){
         return new UserRatingsWrapper(Arrays.asList(
-                new RatingImpl("123", 8),
-                new RatingImpl("456", 9)
+                new RatingImpl("500", 8),
+                new RatingImpl("550", 9)
         ));
     }
 }
