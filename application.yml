@@ -1,0 +1,4 @@
+db:
+  connection: {connectionString:'https://', userName:'server', passWord:'password'}
+  host: 128.8.8.1
+  port: 1208
