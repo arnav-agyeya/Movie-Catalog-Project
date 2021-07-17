@@ -1,0 +1,9 @@
+db:
+  connection: {connectionString:'http://', userName:'testing', passWord:'password'}
+  host: 128.0.0.1
+  port: 1205
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'

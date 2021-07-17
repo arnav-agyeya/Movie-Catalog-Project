@@ -1,0 +1,13 @@
+db:
+  connection: {connectionString:'http://', userName:'testUser', passWord:'pass'}
+  host: 127.0.0.1
+  port: 1200
+management:
+  endpoint:
+    web:
+      exposure:
+        include: '*'
+spring:
+  profiles:
+    active: test
+
